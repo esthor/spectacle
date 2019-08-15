@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { DeckContext } from './useDeck';
 import debounce from '../utils/debounce';
+import usePresentation from '../hooks/usePresentation';
 
 /**
  * Performs logic operations for all of the slide domain level.
@@ -29,7 +30,8 @@ function useSlide(
     deckContextDispatch,
     ,
     ,
-    animationsWhenGoingBack
+    animationsWhenGoingBack,
+    presentation
   ] = React.useContext(DeckContext);
 
   const isActiveSlide = deckContextState.currentSlide === slideNum;
@@ -88,6 +90,23 @@ function useSlide(
   }
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
+  const { sendMessage, addMessageHandler } = presentation;
+
+  useEffect(() => addMessageHandler(dispatch, `slideDispatch${slideNum}`), [
+    dispatch,
+    addMessageHandler,
+    slideNum
+  ]);
+
+  const syncedDispatch = React.useCallback(
+    dispatchArgs => {
+      // slideDispatch + slideNum is our event type
+      sendMessage(`slideDispatch${slideNum}`, dispatchArgs);
+      dispatch(dispatchArgs);
+    },
+    [sendMessage, slideNum]
+  );
+
   // This useEffect adds a keyDown listener to the window.
   React.useEffect(
     function() {
@@ -96,16 +115,16 @@ function useSlide(
       // Create ref for debounceing function
       const debouncedDispatch = debounce(() => {
         if (nextSlidePress === 1) {
-          dispatch({ type: 'NEXT_SLIDE_ELEMENT' });
+          syncedDispatch({ type: 'NEXT_SLIDE_ELEMENT' });
         } else {
-          dispatch({ type: 'IMMEDIATE_NEXT_SLIDE_ELEMENT' });
+          syncedDispatch({ type: 'IMMEDIATE_NEXT_SLIDE_ELEMENT' });
         }
         nextSlidePress = 0;
       }, 200);
       function handleKeyDown(e) {
         if (keyboardControls === 'arrows') {
           if (e.key === 'ArrowLeft') {
-            dispatch({ type: 'PREV_SLIDE_ELEMENT' });
+            syncedDispatch({ type: 'PREV_SLIDE_ELEMENT' });
           }
           if (e.key === 'ArrowRight') {
             nextSlidePress++;
@@ -125,9 +144,9 @@ function useSlide(
         window.removeEventListener('keydown', handleKeyDown);
       };
     },
-    [isActiveSlide, keyboardControls]
+    [isActiveSlide, keyboardControls, presentation, syncedDispatch]
   );
-  return [state, dispatch];
+  return [state, syncedDispatch];
 }
 
 export default useSlide;

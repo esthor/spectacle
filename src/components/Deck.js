@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import useDeck, { DeckContext } from '../hooks/useDeck';
 import isComponentType from '../utils/isComponentType.js';
 import { useTransition, animated } from 'react-spring';
+import usePresentation from '../hooks/usePresentation';
 
 /**
  * Provides top level state/context provider with useDeck hook
@@ -70,6 +71,11 @@ const Deck = ({ children, loop, keyboardControls, ...rest }) => {
     rest.animationsWhenGoingBack
   );
 
+  const presentation = usePresentation();
+
+  // removed this code as we only want to dispatch 
+  // NEXT_SLIDE within the reducer, if we syncdispatch
+  // it causes a +1 slide error.
   const transitions = useTransition(state.currentSlide, p => p, {
     ...(filteredChildren[state.currentSlide].props.transitionEffect ||
       defaultSlideEffect),
@@ -92,7 +98,8 @@ const Deck = ({ children, loop, keyboardControls, ...rest }) => {
           dispatch,
           Slides.length,
           keyboardControls,
-          rest.animationsWhenGoingBack
+          rest.animationsWhenGoingBack,
+          presentation
         ]}
       >
         {transitions.map(({ item, props, key }) => {
@@ -100,6 +107,18 @@ const Deck = ({ children, loop, keyboardControls, ...rest }) => {
           return <Slide key={key} style={props} />;
         })}
       </DeckContext.Provider>
+      <div style={{ position: 'fixed', top: 0, right: 0 }}>
+        {!presentation.isReceiver && !presentation.hasConnection && (
+          <button onClick={presentation.startConnection}>
+            Start Connection
+          </button>
+        )}
+        {presentation.hasConnection && (
+          <button onClick={presentation.terminateConnection}>
+            Terminate Connection
+          </button>
+        )}
+      </div>
     </div>
   );
 };
