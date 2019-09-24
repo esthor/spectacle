@@ -28,21 +28,29 @@ const pluginClassProperties = path.resolve(
 
 const mdxSlideLoader = path.resolve(__dirname, 'mdx-loader', 'index');
 
-const babelConfigOptions = {
-  babelrc: false,
-  presets: [require.resolve(presetEnv), require.resolve(presetReact)],
-  plugins: [
-    require.resolve(pluginObjectSpread),
-    require.resolve(pluginClassProperties)
-  ]
-};
+const babelConfigOptions = undefined;
+// {
+//   babelrc: false,
+//   presets: [
+//     require.resolve(presetEnv),
+//     require.resolve(presetReact)
+//   ],
+//   plugins: [
+//     require.resolve(pluginObjectSpread),
+//     require.resolve(pluginClassProperties)
+//   ]
+// };
 
 module.exports = {
-  entry: './index.js',
+  entry: {
+    bundle: './index.js'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
+  // TODO(one-page): Review and decide on source map strategy.
+  devtool: "source-map",
   module: {
     rules: [
       {
