@@ -21,6 +21,7 @@
     <script src="https://unpkg.com/react-dom@16.10.1/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/react-is@16.10.1/umd/react-is.production.min.js"></script>
     <script src="https://unpkg.com/prop-types@15.7.2/prop-types.min.js"></script>
+    <script src="https://unpkg.com/marked@0.7.0/marked.min.js"></script>
     <!-- <script src="https://unpkg.com/spectacle/dist/spectacle.js"></script> -->
     <script src="../dist/spectacle.js"></script>
     <script type="module">
@@ -43,9 +44,15 @@
       } = Spectacle;
       import htm from 'https://unpkg.com/htm@2.2.1?module';
       const html = htm.bind(React.createElement);
+
+      // TODO: HERE -- this works, but marked() doesn't.
+      const Markdown = ({ children }) => html`<h1>HI</h1>`;
+      //marked(children);
+
       // Example content.
       const formidableLogo = './js/formidable.png';
       const cppCodeBlock = `#include <iostream>
+
       int main()
       {
         auto curried_add = [](int x) -> function<int(int)> { return [=](int y) { return x + y; }; };
@@ -53,6 +60,7 @@
         std::cout << answer << std::endl;
         return 0;
       }`.replace(/      /gm, '');
+
       const deck = html`
         <${Deck}
           template=${({ numberOfSlides, slideNumber }) =>
@@ -162,8 +170,16 @@
                 )}
             <//>
           <//>
+          <${Slide}>
+            <${Heading}>Markdown!<//>
+            <h2 id="hello">Hello ONE</h2>
+            <${Markdown}>
+              ## Hello MD
+            <//>
+          <//>
         <//>
       `;
+      // TODO console.log(marked('## Hello'), deck)
       ReactDOM.render(deck, document.getElementById('root'));
     </script>
   </body>
