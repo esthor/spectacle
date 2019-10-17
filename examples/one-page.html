@@ -43,11 +43,11 @@
         Notes
       } = Spectacle;
       import htm from 'https://unpkg.com/htm@2.2.1?module';
+      // TODO import htm from '../node_modules/htm/dist/htm.module.js';
       const html = htm.bind(React.createElement);
 
       // TODO: HERE -- this works, but marked() doesn't.
-      const Markdown = ({ children }) => html`<h1>HI</h1>`;
-      //marked(children);
+      const Markdown = ({ children }) => html.apply(null, [[marked(children)]]);
 
       // Example content.
       const formidableLogo = './js/formidable.png';
@@ -172,9 +172,15 @@
           <//>
           <${Slide}>
             <${Heading}>Markdown!<//>
-            <h2 id="hello">Hello ONE</h2>
             <${Markdown}>
-              ## Hello MD
+## MD Heading
+
+* MD List 1
+* MD List 2
+
+*bold* and _italic_
+
+\`TODO\`: Add indentation detection from first line.
             <//>
           <//>
         <//>
