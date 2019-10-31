@@ -71,6 +71,30 @@ To present,
 2. Navigate to [localhost:3000/#](https://localhost:3000/#) to view your presentation
 3. Open a second browser window and navigate to [localhost:3000/#/0?presenter](http://localhost:3000/#/0?presenter) to view your presentation with notes and a clock. Add [?presenter&timer](http://localhost:3000/#/0?presenter&timer) to switch from a clock a timer.
 
+<!--
+## Controls
+
+| Key Combination | Function                       |
+| --------------- | ------------------------------ |
+| Right Arrow     | Next Slide                     |
+| Left Arrow      | Previous Slide                 |
+| Space           | Next Slide                     |
+| Shift+Space     | Previous Slide                 |
+| Alt/Option + O  | Toggle Overview Mode           |
+| Alt/Option + P  | Toggle Presenter Mode          |
+| Alt/Option + T  | Toggle Timer in Presenter Mode |
+| Alt/Option + A  | Toggle autoplay (if enabled)   |
+| Alt/Option + F  | Toggle Fullscreen Mode         |
+-->
+
+## FAQ
+
+Can I write my presentation in TypeScript?
+
+Can I easily create templates?
+
+## Tag API
+
 ## FAQ
 
 Can I write my presentation in TypeScript?
