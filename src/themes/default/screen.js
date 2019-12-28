@@ -288,7 +288,7 @@ const screen = (colorArgs = defaultColors, fontArgs = defaultFonts) => {
           margin: 0
         },
         h3: {
-          color: 'black',
+          color: colors.tertiary,
           fontSize: '4.9rem',
           fontFamily: fonts.primary,
           lineHeight: 1,
@@ -296,7 +296,7 @@ const screen = (colorArgs = defaultColors, fontArgs = defaultFonts) => {
           margin: '0.5rem auto'
         },
         h4: {
-          color: 'black',
+          color: colors.tertiary,
           fontSize: '3.82rem',
           fontFamily: fonts.primary,
           lineHeight: 1,
@@ -304,7 +304,7 @@ const screen = (colorArgs = defaultColors, fontArgs = defaultFonts) => {
           margin: '0.5rem auto'
         },
         h5: {
-          color: 'black',
+          color: colors.tertiary,
           fontSize: '3.19rem',
           fontFamily: fonts.primary,
           lineHeight: 1,
@@ -312,7 +312,7 @@ const screen = (colorArgs = defaultColors, fontArgs = defaultFonts) => {
           margin: '0.5rem auto'
         },
         h6: {
-          color: 'black',
+          color: colors.tertiary,
           fontSize: '2.66rem',
           fontFamily: fonts.primary,
           lineHeight: 1,
